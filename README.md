@@ -1,3 +1,9 @@
+Example of a shadow-cljs react-native project using [re-frame](https://github.com/day8/re-frame).
+
+This project is simple mashup of [reagent-react-native](https://github.com/thheller/reagent-react-native) & [rn-rf-shadow](https://github.com/PEZ/rn-rf-shadow)
+
+## Instructions
+
 ```
 $ npm install && cd react-native && npm install
 $ shadow-cljs watch app
@@ -8,6 +14,9 @@ $ cd react-native
 $ npm start
 ;; and
 $ react-native run-android
+
+;; make sure to disable Fast Refresh / Hot Reloading / Live Reloading
+;; see https://facebook.github.io/react-native/docs/debugging
 
 ;; production build
 $ shadow-cljs release app

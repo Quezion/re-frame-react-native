@@ -2,6 +2,7 @@
   (:require
    ["react-native" :as rn]
    ["react" :as react]
+   ["create-react-class" :as crc]
    [reagent.core :as r]
    [re-frame.core :as rf]
    [example.events]
@@ -42,28 +43,49 @@
           (clj->js)
           (rn/StyleSheet.create)))
 
-(defn root2 []
-  (fn []
-    [:> rn/Text {:style (.-title styles)} "Test thing2"]
-    )
-  )
-
 (defn root []
   (let [counter (rf/subscribe [:get-counter])]
     (fn []
       [:> rn/View {:style (.-container styles)}
-       [root2]
        [:> rn/Text {:style (.-title styles)} "Clicked: " @counter]
        [:> rn/TouchableOpacity {:style (.-button styles)
                                 :on-press #(rf/dispatch [:inc-counter])}
-        [:> rn/Text {:style (.-buttonText styles)} "Click me, I'll count 8"]]
+        [:> rn/Text {:style (.-buttonText styles)} "Click me, I'll count"]]
        [:> rn/Image {:source splash-img :style {:width 200 :height 200}}]
        [:> rn/Text {:style (.-label styles)} "Using: shadow-cljs+reagent+re-frame"]])))
+
+(defonce root-ref (atom nil))
+(defonce root-component-ref (atom nil))
+
+(defn render-root [root]
+  (let [first-call? (nil? @root-ref)]
+    (reset! root-ref root)
+
+    (if-not first-call?
+      (when-let [root @root-component-ref]
+        (.forceUpdate ^js root))
+      (let [Root
+            (crc
+             #js {:componentDidMount
+                  (fn []
+                    (this-as this
+                      (reset! root-component-ref this)))
+                  :componentWillUnmount
+                  (fn []
+                    (reset! root-component-ref nil))
+                  :render
+                  (fn []
+                    (let [body @root-ref]
+                      (if (fn? body)
+                        (body)
+                        body)))})]
+
+        (rn/AppRegistry.registerComponent "AwesomeProject" (fn [] Root))))))
 
 (defn start
   {:dev/after-load true}
   []
-  (rn/AppRegistry.registerComponent "AwesomeProject" #(r/reactify-component root)))
+  (render-root (r/as-element [root])))
 
 (defn init []
   (rf/dispatch-sync [:initialize-db])
