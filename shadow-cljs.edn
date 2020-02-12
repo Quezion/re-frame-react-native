@@ -5,11 +5,14 @@
   "src/test"]
 
  :dependencies
- [[reagent "0.9.1"]]
+ [[reagent "0.9.1"]
+  [re-frame "0.10.7"]
+  [org.clojure/spec.alpha "0.2.176"]]
 
  :builds
  {:app
   {:target :react-native
-   :init-fn test.app/init
+   ;;:init-fn test.app/init
+   :init-fn example.app/init
    :output-dir "react-native/app"
    :js-options {:js-package-dirs ["react-native/node_modules"]}}}}
