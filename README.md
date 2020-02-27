@@ -1,6 +1,6 @@
 __Note:__ This fork is intended to demonstrate `M-x cider-jack-in-cljs` failing when attempting to use the clojure-cli. This functionality seems to run fine when using the shadow-cljs option, but errors when using the clojure-cli with a shadow-cljs alias.
 
-The reproduction steps are included in [cider-repro.txt](cider-repro.txt), tested on CIDER 0.21.0 (Feb 2019)
+The reproduction steps are included in [cider-repro.txt](cider-repro.txt), tested on CIDER 0.24.0 (Feb 2020)
 
 For questions, contact me on Clojurians Slack with @Quest .
 
