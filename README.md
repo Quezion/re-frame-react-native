@@ -1,3 +1,11 @@
+__Note:__ This fork is intended to demonstrate `M-x cider-jack-in-cljs` failing when attempting to use the clojure-cli. This functionality seems to run fine when using the shadow-cljs option, but errors when using the clojure-cli with a shadow-cljs alias.
+
+The reproduction steps are included in [cider-repro.txt](cider-repro.txt), tested on CIDER 0.21.0 (Feb 2019)
+
+For questions, contact me on Clojurians Slack with @Quest .
+
+## re-frame-react-native
+
 Example of a shadow-cljs react-native project using [re-frame](https://github.com/day8/re-frame).
 
 This project is simple mashup of [reagent-react-native](https://github.com/thheller/reagent-react-native) & [rn-rf-shadow](https://github.com/PEZ/rn-rf-shadow)

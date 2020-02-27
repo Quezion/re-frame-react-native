@@ -1,0 +1,25 @@
+{:paths ["src/main"
+         "src/test"]
+
+ :deps
+ {reagent
+  {:mvn/version "0.9.1"
+   :doc "ClojureScript interface to React.js"
+   :url "https://github.com/reagent-project/reagent"}
+
+  re-frame
+  {:mvn/version "0.11.0-rc2"
+   :doc "Event-driven architectural framework for single-page applications"
+   :url "https://github.com/day8/re-frame"}
+
+  thheller/shadow-cljs
+  {:mvn/version "2.8.81"
+   :doc "CLJS compiler, required dependency to run via shadow-cljs command"}}
+
+ :aliases {:shadow-cljs
+           {;; Commented out here as it's included in the above :deps instead
+            ;; Would be better to only include here, but Emacs CIDER nREPL breaks on run via clj
+            ;; So nREPL path via `M-x cider-jack-in-cljs` needs inbuilt dep for shadow-cljs cmd
+            ;;:extra-deps {thheller/shadow-cljs {:mvn/version "2.8.81"}}
+            :main-opts ["-m" "shadow.cljs.devtools.cli"]}
+           }}

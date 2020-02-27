@@ -1,0 +1,109 @@
+Tested on CIDER 0.24 (India Feb 2019)
+https://github.com/clojure-emacs/cider/releases/tag/v0.24.0
+
+=== SUCCESS PATH
+Per the README.md, you'll need to run "npm install && cd react-native && npm install" from project root before this works.
+
+To confirm that plain clojure CLI works at command line, navigate to project root in a terminal and type:
+"clj -A:shadow-cljs watch app"
+
+You should see the following output on a successful launch:
+[:app] Compiling ...
+[:app] Build completed. (133 files, 132 compiled, 0 warnings, 7.37s)
+
+=== TEST PATH 1: jack-in + clojure REPL + shadow CLJS REPL + app build
+Steps:
+1. "M-x cider-jack-in-cljs": select clojure-cli
+2. Prompt "Select ClojureScript REPL type": select shadow
+3. Prompt "Select shadow-cljs build": enter/select app
+Result:
+Clojure REPL opens but launching shadow cljs REPL fails with "missing instance"
+
+=== LOG
+[nREPL] Starting server via /usr/local/bin/clojure -Sdeps '{:deps {nrepl {:mvn/version "0.6.0"} cider/piggieback {:mvn/version "0.4.0"} cider/cider-nrepl {:mvn/version "0.21.1"}}}' -m nrepl.cmdline --middleware '["cider.nrepl/cider-middleware", "cider.piggieback/wrap-cljs-repl"]'...
+[nREPL] server started on 51671
+[nREPL] Establishing direct connection to localhost:51671 ...
+[nREPL] Direct connection to localhost:51671 established
+
+1. Unhandled clojure.lang.ExceptionInfo
+   missing instance
+   {}
+               runtime.clj:   11  shadow.cljs.devtools.server.runtime/get-instance!
+               runtime.clj:    8  shadow.cljs.devtools.server.runtime/get-instance!
+                   api.clj:  125  shadow.cljs.devtools.api/worker-running?
+                   api.clj:  123  shadow.cljs.devtools.api/worker-running?
+                   api.clj:  222  shadow.cljs.devtools.api/watch
+                   api.clj:  216  shadow.cljs.devtools.api/watch
+                   api.clj:  220  shadow.cljs.devtools.api/watch
+                   api.clj:  216  shadow.cljs.devtools.api/watch
+                      REPL:    1  user/eval22211
+                      REPL:    1  user/eval22211
+             Compiler.java: 7177  clojure.lang.Compiler/eval
+             Compiler.java: 7166  clojure.lang.Compiler/eval
+             Compiler.java: 7132  clojure.lang.Compiler/eval
+                  core.clj: 3214  clojure.core/eval
+                  core.clj: 3210  clojure.core/eval
+                  main.clj:  437  clojure.main/repl/read-eval-print/fn
+                  main.clj:  437  clojure.main/repl/read-eval-print
+                  main.clj:  458  clojure.main/repl/fn
+                  main.clj:  458  clojure.main/repl
+                  main.clj:  368  clojure.main/repl
+               RestFn.java: 1523  clojure.lang.RestFn/invoke
+    interruptible_eval.clj:   79  nrepl.middleware.interruptible-eval/evaluate
+    interruptible_eval.clj:   55  nrepl.middleware.interruptible-eval/evaluate
+    interruptible_eval.clj:  142  nrepl.middleware.interruptible-eval/interruptible-eval/fn/fn
+                  AFn.java:   22  clojure.lang.AFn/run
+               session.clj:  171  nrepl.middleware.session/session-exec/main-loop/fn
+               session.clj:  170  nrepl.middleware.session/session-exec/main-loop
+                  AFn.java:   22  clojure.lang.AFn/run
+               Thread.java:  748  java.lang.Thread/run
+
+
+=== TEST PATH 2:
+Steps:
+1. "C-u M-x cider-jack-in-cljs"
+ 1a. select project folder
+ 1b. press enter on default nREPL server command
+     "repl -s watch refresh repl -s watch refresh"
+ 1b. select clojure-cli
+ 1c. press space and add alias "-A:shadow-cljs" to nREPL server command
+     The full server command is included below:
+     > nREPL server command: -m nrepl.cmdline --middleware '["cider.nrepl/cider-middleware", "cider.piggieback/wrap-cljs-repl"]' -m nrepl.cmdline --middleware '["cider.nrepl/cider-middleware", "cider.piggieback/wrap-cljs-repl"]' -A:shadow-cljs
+2. Prompt "Select ClojureScript REPL type": select shadow
+3. Prompt "Select shadow-cljs build": enter/select app
+Result:
+Clojure REPL opens but launching shadow cljs REPL fails with "missing instance"
+
+=== LOG
+1. Unhandled clojure.lang.ExceptionInfo
+   missing instance
+   {}
+               runtime.clj:   11  shadow.cljs.devtools.server.runtime/get-instance!
+               runtime.clj:    8  shadow.cljs.devtools.server.runtime/get-instance!
+                   api.clj:  125  shadow.cljs.devtools.api/worker-running?
+                   api.clj:  123  shadow.cljs.devtools.api/worker-running?
+                   api.clj:  222  shadow.cljs.devtools.api/watch
+                   api.clj:  216  shadow.cljs.devtools.api/watch
+                   api.clj:  220  shadow.cljs.devtools.api/watch
+                   api.clj:  216  shadow.cljs.devtools.api/watch
+                      REPL:    1  user/eval22211
+                      REPL:    1  user/eval22211
+             Compiler.java: 7177  clojure.lang.Compiler/eval
+             Compiler.java: 7166  clojure.lang.Compiler/eval
+             Compiler.java: 7132  clojure.lang.Compiler/eval
+                  core.clj: 3214  clojure.core/eval
+                  core.clj: 3210  clojure.core/eval
+                  main.clj:  437  clojure.main/repl/read-eval-print/fn
+                  main.clj:  437  clojure.main/repl/read-eval-print
+                  main.clj:  458  clojure.main/repl/fn
+                  main.clj:  458  clojure.main/repl
+                  main.clj:  368  clojure.main/repl
+               RestFn.java: 1523  clojure.lang.RestFn/invoke
+    interruptible_eval.clj:   79  nrepl.middleware.interruptible-eval/evaluate
+    interruptible_eval.clj:   55  nrepl.middleware.interruptible-eval/evaluate
+    interruptible_eval.clj:  142  nrepl.middleware.interruptible-eval/interruptible-eval/fn/fn
+                  AFn.java:   22  clojure.lang.AFn/run
+               session.clj:  171  nrepl.middleware.session/session-exec/main-loop/fn
+               session.clj:  170  nrepl.middleware.session/session-exec/main-loop
+                  AFn.java:   22  clojure.lang.AFn/run
+               Thread.java:  748  java.lang.Thread/run
